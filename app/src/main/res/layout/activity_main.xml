@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/MatchMatch.Vertical"
+    android:gravity="center"
+    android:background="@color/srl_orange_light">
+
+    <cn.bingoogolapple.bgaindicator.library.BGAFixedIndicator
+        android:id="@+id/indicator1"
+        android:background="@color/srl_green_light"
+        app:triangleColor="@color/srl_red_light"
+        app:triangleMarginBottom="0dp"
+        app:triangleHeight="2dp"
+        app:textColor="@color/tab_top_indicator"
+        app:textSizeNormal="14sp"
+        app:textSizeSelected="18sp"
+        app:hasDivider="true"
+        app:dividerColor="@color/srl_blue_bright"
+        app:dividerVerticalMargin="8dp"
+        app:dividerWidth="2dp"
+        android:layout_width="300dp"
+        android:layout_height="40dp" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager1"
+        style="@style/MatchAuto" />
+
+    <cn.bingoogolapple.bgaindicator.library.BGAScrollIndicator
+        android:id="@+id/indicator2"
+        android:background="@color/srl_green_light"
+        app:triangleColor="@color/srl_red_light"
+        app:triangleMarginBottom="0dp"
+        app:triangleHeight="2dp"
+        app:textColor="@color/tab_top_indicator"
+        app:textSizeNormal="14sp"
+        app:textSizeSelected="18sp"
+        app:hasDivider="true"
+        app:dividerColor="@color/srl_blue_bright"
+        app:dividerVerticalMargin="8dp"
+        app:dividerWidth="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager2"
+        android:layout_width="match_parent"
+        style="@style/MatchAuto" />
+
+</LinearLayout>
