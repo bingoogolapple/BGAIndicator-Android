@@ -10,7 +10,7 @@
         app:triangleColor="@color/srl_red_light"
         app:triangleMarginBottom="0dp"
         app:triangleHeight="2dp"
-        app:textColor="@color/tab_top_indicator"
+        app:textColor="@color/selector_tab"
         app:textSizeNormal="14sp"
         app:textSizeSelected="18sp"
         app:hasDivider="true"
@@ -24,13 +24,13 @@
         android:id="@+id/pager1"
         style="@style/MatchAuto" />
 
-    <cn.bingoogolapple.bgaindicator.library.BGAScrollIndicator
+    <cn.bingoogolapple.bgaindicator.library.BGAFixedIndicator
         android:id="@+id/indicator2"
         android:background="@color/srl_green_light"
         app:triangleColor="@color/srl_red_light"
         app:triangleMarginBottom="0dp"
         app:triangleHeight="2dp"
-        app:textColor="@color/tab_top_indicator"
+        app:textColor="@color/selector_tab"
         app:textSizeNormal="14sp"
         app:textSizeSelected="18sp"
         app:hasDivider="true"
@@ -38,11 +38,33 @@
         app:dividerVerticalMargin="8dp"
         app:dividerWidth="2dp"
         android:layout_width="match_parent"
-        android:layout_height="40dp"/>
+        android:layout_height="40dp" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager2"
         android:layout_width="match_parent"
         style="@style/MatchAuto" />
+
+    <cn.bingoogolapple.bgaindicator.library.BGAFixedIndicator
+        android:id="@+id/indicator3"
+        android:background="@color/srl_green_light"
+        app:triangleColor="@color/srl_red_light"
+        app:triangleMarginBottom="0dp"
+        app:triangleHeight="2dp"
+        app:textColor="@color/selector_tab"
+        app:textSizeNormal="14sp"
+        app:textSizeSelected="18sp"
+        app:hasDivider="true"
+        app:dividerColor="@color/srl_blue_bright"
+        app:dividerVerticalMargin="8dp"
+        app:dividerWidth="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager3"
+        android:layout_width="300dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 </LinearLayout>

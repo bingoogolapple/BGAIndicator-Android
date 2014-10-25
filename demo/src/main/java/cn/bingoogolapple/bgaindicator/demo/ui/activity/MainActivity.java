@@ -1,4 +1,4 @@
-package cn.bingoogolapple.bgaindicator.app.ui.activity;
+package cn.bingoogolapple.bgaindicator.demo.ui.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,10 +11,9 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bingoogolapple.bgaindicator.app.R;
-import cn.bingoogolapple.bgaindicator.app.ui.fragment.ContentFragment;
+import cn.bingoogolapple.bgaindicator.demo.R;
+import cn.bingoogolapple.bgaindicator.demo.ui.fragment.ContentFragment;
 import cn.bingoogolapple.bgaindicator.library.BGAFixedIndicator;
-import cn.bingoogolapple.bgaindicator.library.BGAScrollIndicator;
 import cn.bingoogolapple.bgaindicator.library.TabInfo;
 import cn.bingoogolapple.loon.library.Loon;
 import cn.bingoogolapple.loon.library.LoonLayout;
@@ -29,39 +28,51 @@ public class MainActivity extends FragmentActivity {
     private ViewPager mPager1;
 
     @LoonView(id = R.id.indicator2)
-    private BGAScrollIndicator mIndicator2;
+    private BGAFixedIndicator mIndicator2;
     @LoonView(id = R.id.pager2)
     private ViewPager mPager2;
+
+    @LoonView(id = R.id.indicator3)
+    private BGAFixedIndicator mIndicator3;
+    @LoonView(id = R.id.pager3)
+    private ViewPager mPager3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Loon.injectView2Activity(this);
         List<TabInfo> tabInfos1 = new ArrayList<TabInfo>();
-        for(int i = 1; i< 5;i++) {
+        for (int i = 1; i < 5; i++) {
             tabInfos1.add(new TabInfo("标签" + i));
         }
-        mPager1.setAdapter(new MyPagerAdapter(getSupportFragmentManager(),tabInfos1));
+        mPager1.setAdapter(new MyPagerAdapter(getSupportFragmentManager(), tabInfos1));
         mIndicator1.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                Log.i(TAG,"newTab:" + position);
+                Log.i(TAG, "newTab:" + position);
             }
         });
-        mIndicator1.initData(0,tabInfos1,mPager1);
+        mIndicator1.initData(0, tabInfos1, mPager1);
 
         List<TabInfo> tabInfos2 = new ArrayList<TabInfo>();
-        for(int i = 1; i< 6;i++) {
+        for (int i = 1; i < 6; i++) {
             tabInfos2.add(new TabInfo("标签" + i));
         }
-        mPager2.setAdapter(new MyPagerAdapter(getSupportFragmentManager(),tabInfos2));
-        mIndicator2.initData(1,tabInfos2,mPager2);
+        mPager2.setAdapter(new MyPagerAdapter(getSupportFragmentManager(), tabInfos2));
+        mIndicator2.initData(1, tabInfos2, mPager2);
+
+        List<TabInfo> tabInfos3 = new ArrayList<TabInfo>();
+        for (int i = 1; i < 6; i++) {
+            tabInfos3.add(new TabInfo("标签" + i));
+        }
+        mPager3.setAdapter(new MyPagerAdapter(getSupportFragmentManager(), tabInfos2));
+        mIndicator3.initData(1, tabInfos2, mPager3);
     }
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
         private List<TabInfo> mTabInfos;
 
-        public MyPagerAdapter(FragmentManager fm,List<TabInfo> tabInfos) {
+        public MyPagerAdapter(FragmentManager fm, List<TabInfo> tabInfos) {
             super(fm);
             mTabInfos = tabInfos;
         }

@@ -1,4 +1,4 @@
-package cn.bingoogolapple.bgaindicator.app.ui.fragment;
+package cn.bingoogolapple.bgaindicator.demo.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -41,7 +41,5 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     @Override
     public void onClick(View v) {
     }
-
-    ;
 
 }

@@ -1,9 +1,9 @@
-package cn.bingoogolapple.bgaindicator.app.ui.fragment;
+package cn.bingoogolapple.bgaindicator.demo.ui.fragment;
 
 import android.os.Bundle;
 import android.widget.TextView;
 
-import cn.bingoogolapple.bgaindicator.app.R;
+import cn.bingoogolapple.bgaindicator.demo.R;
 import cn.bingoogolapple.loon.library.LoonLayout;
 import cn.bingoogolapple.loon.library.LoonView;
 
