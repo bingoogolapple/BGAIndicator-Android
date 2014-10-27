@@ -10,4 +10,12 @@ ViewPagerIndicator
 
 #### [下载Demo](http://bingoshare.u.qiniudn.com/BGAIndicatorDemo.apk)
 
+>Gradle
+
+```groovy
+dependencies {
+    compile 'cn.bingoogolapple.bgaindicator:library:1.0.0@aar'
+}
+```
+
 ##### 详细用法请查看[demo](https://github.com/bingoogolapple/BGAIndicator/tree/master/demo):feet:
