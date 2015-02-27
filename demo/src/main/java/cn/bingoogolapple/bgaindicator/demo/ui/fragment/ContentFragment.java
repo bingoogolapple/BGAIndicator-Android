@@ -3,16 +3,13 @@ package cn.bingoogolapple.bgaindicator.demo.ui.fragment;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import cn.bingoogolapple.bgaannotation.BGAALayout;
+import cn.bingoogolapple.bgaannotation.BGAAView;
 import cn.bingoogolapple.bgaindicator.demo.R;
-import cn.bingoogolapple.loon.library.LoonLayout;
-import cn.bingoogolapple.loon.library.LoonView;
 
-/**
- * Created by bingoogolapple on 14/10/21.
- */
-@LoonLayout(id = R.layout.fragment_content)
+@BGAALayout(R.layout.fragment_content)
 public class ContentFragment extends BaseFragment {
-    @LoonView(id = R.id.tv_content_tag)
+    @BGAAView(R.id.tv_content_tag)
     private TextView mTagTv;
     public int mPosition;
 

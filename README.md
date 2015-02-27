@@ -14,7 +14,7 @@ ViewPagerIndicator
 
 ```groovy
 dependencies {
-    compile 'cn.bingoogolapple.bgaindicator:library:1.0.0@aar'
+    compile 'cn.bingoogolapple:bga-indicator:1.0.0@aar'
 }
 ```
 

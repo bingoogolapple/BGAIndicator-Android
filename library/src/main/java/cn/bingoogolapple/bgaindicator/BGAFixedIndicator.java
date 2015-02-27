@@ -1,4 +1,4 @@
-package cn.bingoogolapple.bgaindicator.library;
+package cn.bingoogolapple.bgaindicator;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -6,7 +6,6 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.drawable.Drawable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
@@ -17,13 +16,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.List;
-
-/**
- * Created by bingoogolapple on 14-10-13.
- */
 public class BGAFixedIndicator extends LinearLayout implements View.OnClickListener, View.OnFocusChangeListener, OnPageChangeListener {
-    private static final String TAG = BGAFixedIndicator.class.getSimpleName();
     private final int BSSEEID = 0xffff00;
     private ColorStateList mTextColor;
     private int mTextSizeNormal = 12;
@@ -31,11 +24,10 @@ public class BGAFixedIndicator extends LinearLayout implements View.OnClickListe
 
     private int mTriangleColor = android.R.color.white;
     private int mTriangleHeight = 5;
-    private int mTriangleMarginBottom = 2;
+    private int mTriangleHorizontalMargin = 20;
 
     private boolean mHasDivider = true;
     private int mDividerColor = android.R.color.black;
-    private Drawable mDividerDrawable;
     private int mDividerWidth = 3;
     private int mDividerVerticalMargin = 10;
 
@@ -44,13 +36,13 @@ public class BGAFixedIndicator extends LinearLayout implements View.OnClickListe
 
     private ViewPager mViewPager;
 
-    private List<TabInfo> mTabInfos;
     private int mTabCount = 0;
     private int mCurrentTabIndex = 0;
 
-    private int mPagerScrollX = 0;
+    private int mTriangleLeftX = 0;
 
     private Path mPath = new Path();
+    private int mItemWidth;
 
     private OnPageChangeListener mOnPageChangeListener;
 
@@ -68,33 +60,36 @@ public class BGAFixedIndicator extends LinearLayout implements View.OnClickListe
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.BGAIndicator);
         final int N = typedArray.getIndexCount();
         for (int i = 0; i < N; i++) {
-            int attr = typedArray.getIndex(i);
-            if (attr == R.styleable.BGAIndicator_triangleColor) {
-                mTriangleColor = typedArray.getColor(attr, mTriangleColor);
-            } else if (attr == R.styleable.BGAIndicator_triangleMarginBottom) {
-                /**
-                 * getDimension和getDimensionPixelOffset的功能差不多,都是获取某个dimen的值,如果是dp或sp的单位,将其乘以density,如果是px,则不乘;两个函数的区别是一个返回float,一个返回int. getDimensionPixelSize则不管写的是dp还是sp还是px,都会乘以denstiy.
-                 */
-                mTriangleMarginBottom = typedArray.getDimensionPixelSize(attr, mTriangleMarginBottom);
-            } else if (attr == R.styleable.BGAIndicator_triangleHeight) {
-                mTriangleHeight = typedArray.getDimensionPixelSize(attr, mTriangleHeight);
-            } else if (attr == R.styleable.BGAIndicator_textColor) {
-                mTextColor = typedArray.getColorStateList(attr);
-            } else if (attr == R.styleable.BGAIndicator_textSizeNormal) {
-                mTextSizeNormal = typedArray.getDimensionPixelSize(attr, mTextSizeNormal);
-            } else if (attr == R.styleable.BGAIndicator_textSizeSelected) {
-                mTextSizeSelected = typedArray.getDimensionPixelSize(attr, mTextSizeSelected);
-            } else if (attr == R.styleable.BGAIndicator_hasDivider) {
-                mHasDivider = typedArray.getBoolean(attr, mHasDivider);
-            } else if (attr == R.styleable.BGAIndicator_dividerColor) {
-                mDividerDrawable = typedArray.getDrawable(attr);
-            } else if (attr == R.styleable.BGAIndicator_dividerWidth) {
-                mDividerWidth = typedArray.getDimensionPixelSize(attr, mDividerWidth);
-            } else if (attr == R.styleable.BGAIndicator_dividerVerticalMargin) {
-                mDividerVerticalMargin = typedArray.getDimensionPixelSize(attr, mDividerVerticalMargin);
-            }
+            initAttr(typedArray.getIndex(i), typedArray);
         }
         typedArray.recycle();
+    }
+
+    public void initAttr(int attr, TypedArray typedArray) {
+        if (attr == R.styleable.BGAIndicator_indicator_triangleColor) {
+            mTriangleColor = typedArray.getColor(attr, mTriangleColor);
+        } else if (attr == R.styleable.BGAIndicator_indicator_triangleHorizontalMargin) {
+            /**
+             * getDimension和getDimensionPixelOffset的功能差不多,都是获取某个dimen的值,如果是dp或sp的单位,将其乘以density,如果是px,则不乘;两个函数的区别是一个返回float,一个返回int. getDimensionPixelSize则不管写的是dp还是sp还是px,都会乘以denstiy.
+             */
+            mTriangleHorizontalMargin = typedArray.getDimensionPixelSize(attr, mTriangleHorizontalMargin);
+        } else if (attr == R.styleable.BGAIndicator_indicator_triangleHeight) {
+            mTriangleHeight = typedArray.getDimensionPixelSize(attr, mTriangleHeight);
+        } else if (attr == R.styleable.BGAIndicator_indicator_textColor) {
+            mTextColor = typedArray.getColorStateList(attr);
+        } else if (attr == R.styleable.BGAIndicator_indicator_textSizeNormal) {
+            mTextSizeNormal = typedArray.getDimensionPixelSize(attr, mTextSizeNormal);
+        } else if (attr == R.styleable.BGAIndicator_indicator_textSizeSelected) {
+            mTextSizeSelected = typedArray.getDimensionPixelSize(attr, mTextSizeSelected);
+        } else if (attr == R.styleable.BGAIndicator_indicator_hasDivider) {
+            mHasDivider = typedArray.getBoolean(attr, mHasDivider);
+        } else if (attr == R.styleable.BGAIndicator_indicator_dividerColor) {
+            mDividerColor = typedArray.getColor(attr, mDividerColor);
+        } else if (attr == R.styleable.BGAIndicator_indicator_dividerWidth) {
+            mDividerWidth = typedArray.getDimensionPixelSize(attr, mDividerWidth);
+        } else if (attr == R.styleable.BGAIndicator_indicator_dividerVerticalMargin) {
+            mDividerVerticalMargin = typedArray.getDimensionPixelSize(attr, mDividerVerticalMargin);
+        }
     }
 
     private void initDraw(Context context) {
@@ -105,18 +100,17 @@ public class BGAFixedIndicator extends LinearLayout implements View.OnClickListe
     }
 
     // 初始化选项卡
-    public void initData(int currentTab, List<TabInfo> tabInfos, ViewPager viewPager) {
+    public void initData(int currentTab, ViewPager viewPager) {
         this.removeAllViews();
         mViewPager = viewPager;
-        mTabInfos = tabInfos;
-        mTabCount = tabInfos.size();
+        mTabCount = mViewPager.getAdapter().getCount();
+
         mViewPager.setOnPageChangeListener(this);
 
         initTab(currentTab);
         postInvalidate();
     }
 
-    @SuppressWarnings("deprecation")
     private void initTab(int currentTab) {
         for (int index = 0; index < mTabCount; index++) {
             View tabIndicator = mInflater.inflate(R.layout.view_indicator, this, false);
@@ -128,7 +122,7 @@ public class BGAFixedIndicator extends LinearLayout implements View.OnClickListe
                 titleTv.setTextColor(mTextColor);
             }
             titleTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSizeNormal);
-            titleTv.setText(mTabInfos.get(index).title);
+            titleTv.setText(mViewPager.getAdapter().getPageTitle(index));
 
             LayoutParams tabLp = new LayoutParams(0, LayoutParams.MATCH_PARENT, 1);
             tabLp.gravity = Gravity.CENTER;
@@ -143,11 +137,7 @@ public class BGAFixedIndicator extends LinearLayout implements View.OnClickListe
                 LayoutParams dividerLp = new LayoutParams(mDividerWidth, LayoutParams.MATCH_PARENT);
                 dividerLp.setMargins(0, mDividerVerticalMargin, 0, mDividerVerticalMargin);
                 View vLine = new View(getContext());
-                if (mDividerDrawable != null) {
-                    vLine.setBackgroundDrawable(mDividerDrawable);
-                } else {
-                    vLine.setBackgroundResource(mDividerColor);
-                }
+                vLine.setBackgroundColor(mDividerColor);
                 vLine.setLayoutParams(dividerLp);
                 this.addView(vLine);
             }
@@ -171,11 +161,11 @@ public class BGAFixedIndicator extends LinearLayout implements View.OnClickListe
         }
     }
 
-    private void resetTab(View tab, boolean b) {
+    private void resetTab(View tab, boolean isSelected) {
         TextView tv = (TextView) tab.findViewById(R.id.tv_indicator_title);
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, b ? mTextSizeSelected : mTextSizeNormal);
-        tab.setSelected(b);
-        tab.setPressed(b);
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, isSelected ? mTextSizeSelected : mTextSizeNormal);
+        tab.setSelected(isSelected);
+        tab.setPressed(isSelected);
     }
 
     public void setOnPageChangeListener(OnPageChangeListener onPageChangeListener) {
@@ -197,6 +187,7 @@ public class BGAFixedIndicator extends LinearLayout implements View.OnClickListe
             for (int i = 0; i < mTabCount; i++) {
                 if (getChildAt(i) == v) {
                     setCurrentTab(i);
+                    return;
                 }
             }
         }
@@ -206,37 +197,35 @@ public class BGAFixedIndicator extends LinearLayout implements View.OnClickListe
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        int itemWidth = getWidth();
-        float indicatorScrollX = mPagerScrollX;
-
-        if (mTabCount != 0) {
-            itemWidth = getWidth() / mTabCount;
-            indicatorScrollX = itemWidth * mPagerScrollX / getPagerRealWidth();
-        }
 
         mPath.rewind();
-        float offset = 20;
-        float left_x = offset + indicatorScrollX;
-        float right_x = itemWidth - offset + indicatorScrollX;
-        float top_y = getHeight() - mTriangleMarginBottom - mTriangleHeight;
-        float bottom_y = getHeight() - mTriangleMarginBottom;
+        float left_x = mTriangleHorizontalMargin + mTriangleLeftX;
+        float right_x = mTriangleLeftX + mItemWidth - mTriangleHorizontalMargin;
+        float top_y = getHeight() - mTriangleHeight;
+        float bottom_y = getHeight();
 
-        mPath.moveTo(left_x, top_y + 1f);
-        mPath.lineTo(right_x, top_y + 1f);
-        mPath.lineTo(right_x, bottom_y + 1f);
-        mPath.lineTo(left_x, bottom_y + 1f);
+        mPath.moveTo(left_x, top_y);
+        mPath.lineTo(right_x, top_y);
+        mPath.lineTo(right_x, bottom_y);
+        mPath.lineTo(left_x, bottom_y);
         mPath.close();
 
         canvas.drawPath(mPath, mPaintFooterTriangle);
     }
 
-    private int getPagerRealWidth() {
-        return mViewPager.getWidth() + mViewPager.getPageMargin();
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        mItemWidth = getWidth();
+        if (mTabCount != 0) {
+            mItemWidth = getWidth() / mTabCount;
+        }
     }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        mPagerScrollX = getPagerRealWidth() * position + positionOffsetPixels;
+        mTriangleLeftX = (int) (mItemWidth * (position + positionOffset));
+
         postInvalidate();
 
         if (mOnPageChangeListener != null) {

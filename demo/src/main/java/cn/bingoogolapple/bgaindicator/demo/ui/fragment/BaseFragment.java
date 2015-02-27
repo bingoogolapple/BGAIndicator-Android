@@ -6,11 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import cn.bingoogolapple.loon.library.Loon;
+import cn.bingoogolapple.bgaannotation.BGAA;
 
-/**
- * Created by bingoogolapple on 14-10-10.
- */
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
     protected View mRootView;
 
@@ -30,7 +27,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     }
 
     protected void injectView() {
-        mRootView = Loon.injectView2ViewHolderOrFragment(this, getActivity());
+        mRootView = BGAA.injectView2ViewHolderOrFragment(this, getActivity());
     }
 
     protected void setListener() {

@@ -4,19 +4,19 @@
     android:gravity="center"
     android:background="@color/srl_orange_light">
 
-    <cn.bingoogolapple.bgaindicator.library.BGAFixedIndicator
+    <cn.bingoogolapple.bgaindicator.BGAFixedIndicator
         android:id="@+id/indicator1"
         android:background="@color/srl_green_light"
-        app:triangleColor="@color/srl_red_light"
-        app:triangleMarginBottom="0dp"
-        app:triangleHeight="2dp"
-        app:textColor="@color/selector_tab"
-        app:textSizeNormal="14sp"
-        app:textSizeSelected="18sp"
-        app:hasDivider="true"
-        app:dividerColor="@color/srl_blue_bright"
-        app:dividerVerticalMargin="8dp"
-        app:dividerWidth="2dp"
+        app:indicator_triangleColor="@color/srl_red_light"
+        app:indicator_triangleHorizontalMargin="5dp"
+        app:indicator_triangleHeight="2dp"
+        app:indicator_textColor="@color/selector_tab"
+        app:indicator_textSizeNormal="14sp"
+        app:indicator_textSizeSelected="18sp"
+        app:indicator_hasDivider="true"
+        app:indicator_dividerColor="@color/srl_blue_bright"
+        app:indicator_dividerVerticalMargin="8dp"
+        app:indicator_dividerWidth="2dp"
         android:layout_width="300dp"
         android:layout_height="40dp" />
 
@@ -24,19 +24,19 @@
         android:id="@+id/pager1"
         style="@style/MatchAuto" />
 
-    <cn.bingoogolapple.bgaindicator.library.BGAFixedIndicator
+    <cn.bingoogolapple.bgaindicator.BGAFixedIndicator
         android:id="@+id/indicator2"
         android:background="@color/srl_green_light"
-        app:triangleColor="@color/srl_red_light"
-        app:triangleMarginBottom="0dp"
-        app:triangleHeight="2dp"
-        app:textColor="@color/selector_tab"
-        app:textSizeNormal="14sp"
-        app:textSizeSelected="18sp"
-        app:hasDivider="true"
-        app:dividerColor="@color/srl_blue_bright"
-        app:dividerVerticalMargin="8dp"
-        app:dividerWidth="2dp"
+        app:indicator_triangleColor="@color/srl_red_light"
+        app:indicator_triangleHorizontalMargin="0dp"
+        app:indicator_triangleHeight="2dp"
+        app:indicator_textColor="@color/selector_tab"
+        app:indicator_textSizeNormal="14sp"
+        app:indicator_textSizeSelected="18sp"
+        app:indicator_hasDivider="true"
+        app:indicator_dividerColor="@color/srl_blue_bright"
+        app:indicator_dividerVerticalMargin="8dp"
+        app:indicator_dividerWidth="2dp"
         android:layout_width="match_parent"
         android:layout_height="40dp" />
 
@@ -45,19 +45,19 @@
         android:layout_width="match_parent"
         style="@style/MatchAuto" />
 
-    <cn.bingoogolapple.bgaindicator.library.BGAFixedIndicator
+    <cn.bingoogolapple.bgaindicator.BGAFixedIndicator
         android:id="@+id/indicator3"
         android:background="@color/srl_green_light"
-        app:triangleColor="@color/srl_red_light"
-        app:triangleMarginBottom="0dp"
-        app:triangleHeight="2dp"
-        app:textColor="@color/selector_tab"
-        app:textSizeNormal="14sp"
-        app:textSizeSelected="18sp"
-        app:hasDivider="true"
-        app:dividerColor="@color/srl_blue_bright"
-        app:dividerVerticalMargin="8dp"
-        app:dividerWidth="2dp"
+        app:indicator_triangleColor="@color/srl_red_light"
+        app:indicator_triangleHorizontalMargin="0dp"
+        app:indicator_triangleHeight="2dp"
+        app:indicator_textColor="@color/selector_tab"
+        app:indicator_textSizeNormal="14sp"
+        app:indicator_textSizeSelected="18sp"
+        app:indicator_hasDivider="false"
+        app:indicator_dividerColor="@color/srl_blue_bright"
+        app:indicator_dividerVerticalMargin="8dp"
+        app:indicator_dividerWidth="2dp"
         android:layout_width="match_parent"
         android:layout_height="40dp" />
 

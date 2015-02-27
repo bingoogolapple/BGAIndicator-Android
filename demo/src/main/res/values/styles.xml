@@ -2,7 +2,7 @@
 
     <style name="BGA" />
 
-    <style name="BGA.Theme" parent="@android:style/Theme.Light.NoTitleBar"></style>
+    <style name="BGA.Theme" parent="Theme.AppCompat.Light.DarkActionBar"></style>
 
     <style name="BGA.Theme.Translucent">
         <item name="android:windowBackground">@android:color/transparent</item>
