@@ -15,6 +15,8 @@ android {
 dependencies {
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'cn.bingoogolapple:bga-annotation:1.0.0@aar'
+
+
 //    compile project(':library')
-    compile 'cn.bingoogolapple:bga-indicator:1.0.0@aar'
+    compile 'cn.bingoogolapple:bga-indicator:1.0.1@aar'
 }

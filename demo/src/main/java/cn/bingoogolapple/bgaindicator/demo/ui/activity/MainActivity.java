@@ -5,8 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 
 import cn.bingoogolapple.bgaannotation.BGAA;
 import cn.bingoogolapple.bgaannotation.BGAALayout;
@@ -16,7 +15,7 @@ import cn.bingoogolapple.bgaindicator.demo.R;
 import cn.bingoogolapple.bgaindicator.demo.ui.fragment.ContentFragment;
 
 @BGAALayout(R.layout.activity_main)
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     @BGAAView(R.id.indicator1)
     private BGAFixedIndicator mIndicator1;
@@ -42,12 +41,6 @@ public class MainActivity extends ActionBarActivity {
             titles1[i] = "标签" + i;
         }
         mPager1.setAdapter(new MyPagerAdapter(getSupportFragmentManager(), titles1));
-        mIndicator1.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                Log.i(TAG, "选中标签:" + position);
-            }
-        });
         mIndicator1.initData(0, mPager1);
 
         String[] titles2 = new String[5];

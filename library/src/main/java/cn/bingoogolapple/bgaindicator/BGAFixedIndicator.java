@@ -4,11 +4,12 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,20 +17,21 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class BGAFixedIndicator extends LinearLayout implements View.OnClickListener, View.OnFocusChangeListener, OnPageChangeListener {
+public class BGAFixedIndicator extends LinearLayout implements View.OnClickListener, View.OnFocusChangeListener {
+    private static final String TAG = BGAFixedIndicator.class.getSimpleName();
     private final int BSSEEID = 0xffff00;
     private ColorStateList mTextColor;
-    private int mTextSizeNormal = 12;
-    private int mTextSizeSelected = 15;
+    private int mTextSizeNormal;
+    private int mTextSizeSelected;
 
-    private int mTriangleColor = android.R.color.white;
-    private int mTriangleHeight = 5;
-    private int mTriangleHorizontalMargin = 20;
+    private int mTriangleColor = Color.WHITE;
+    private int mTriangleHeight;
+    private int mTriangleHorizontalMargin;
 
     private boolean mHasDivider = true;
-    private int mDividerColor = android.R.color.black;
-    private int mDividerWidth = 3;
-    private int mDividerVerticalMargin = 10;
+    private int mDividerColor = Color.BLACK;
+    private int mDividerWidth;
+    private int mDividerVerticalMargin;
 
     private Paint mPaintFooterTriangle;
     private LayoutInflater mInflater;
@@ -44,28 +46,36 @@ public class BGAFixedIndicator extends LinearLayout implements View.OnClickListe
     private Path mPath = new Path();
     private int mItemWidth;
 
-    private OnPageChangeListener mOnPageChangeListener;
-
     public BGAFixedIndicator(Context context) {
         this(context, null);
     }
 
     public BGAFixedIndicator(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initAttrs(context, attrs);
+        initDefaultAttrs(context);
+        initCustomAttrs(context, attrs);
         initDraw(context);
     }
 
-    private void initAttrs(Context context, AttributeSet attrs) {
+    private void initDefaultAttrs(Context context) {
+        mTriangleHorizontalMargin = dp2px(context, 5);
+        mTriangleHeight = dp2px(context, 2);
+        mTextSizeNormal = sp2px(context, 14);
+        mTextSizeSelected = sp2px(context, 16);
+        mDividerWidth = dp2px(context, 2);
+        mDividerVerticalMargin = dp2px(context, 5);
+    }
+
+    private void initCustomAttrs(Context context, AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.BGAIndicator);
         final int N = typedArray.getIndexCount();
         for (int i = 0; i < N; i++) {
-            initAttr(typedArray.getIndex(i), typedArray);
+            initCustomAttr(typedArray.getIndex(i), typedArray);
         }
         typedArray.recycle();
     }
 
-    public void initAttr(int attr, TypedArray typedArray) {
+    public void initCustomAttr(int attr, TypedArray typedArray) {
         if (attr == R.styleable.BGAIndicator_indicator_triangleColor) {
             mTriangleColor = typedArray.getColor(attr, mTriangleColor);
         } else if (attr == R.styleable.BGAIndicator_indicator_triangleHorizontalMargin) {
@@ -101,11 +111,23 @@ public class BGAFixedIndicator extends LinearLayout implements View.OnClickListe
 
     // 初始化选项卡
     public void initData(int currentTab, ViewPager viewPager) {
-        this.removeAllViews();
+        removeAllViews();
+
         mViewPager = viewPager;
         mTabCount = mViewPager.getAdapter().getCount();
 
-        mViewPager.setOnPageChangeListener(this);
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                mTriangleLeftX = (int) (mItemWidth * (position + positionOffset));
+                postInvalidate();
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                setCurrentTab(position);
+            }
+        });
 
         initTab(currentTab);
         postInvalidate();
@@ -155,7 +177,7 @@ public class BGAFixedIndicator extends LinearLayout implements View.OnClickListe
             resetTab(newTab, true);
 
             if (mViewPager.getCurrentItem() != mCurrentTabIndex) {
-                mViewPager.setCurrentItem(mCurrentTabIndex);
+                mViewPager.setCurrentItem(mCurrentTabIndex, false);
             }
             postInvalidate();
         }
@@ -166,10 +188,6 @@ public class BGAFixedIndicator extends LinearLayout implements View.OnClickListe
         tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, isSelected ? mTextSizeSelected : mTextSizeNormal);
         tab.setSelected(isSelected);
         tab.setPressed(isSelected);
-    }
-
-    public void setOnPageChangeListener(OnPageChangeListener onPageChangeListener) {
-        mOnPageChangeListener = onPageChangeListener;
     }
 
     @Override
@@ -222,30 +240,15 @@ public class BGAFixedIndicator extends LinearLayout implements View.OnClickListe
         }
     }
 
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        mTriangleLeftX = (int) (mItemWidth * (position + positionOffset));
-
-        postInvalidate();
-
-        if (mOnPageChangeListener != null) {
-            mOnPageChangeListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
-        }
+    public static int dp2px(Context context, float dpValue) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, context.getResources().getDisplayMetrics());
     }
 
-    @Override
-    public void onPageSelected(int position) {
-        setCurrentTab(position);
-
-        if (mOnPageChangeListener != null) {
-            mOnPageChangeListener.onPageSelected(position);
-        }
+    public static int sp2px(Context context, float spValue) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spValue, context.getResources().getDisplayMetrics());
     }
 
-    @Override
-    public void onPageScrollStateChanged(int state) {
-        if (mOnPageChangeListener != null) {
-            mOnPageChangeListener.onPageScrollStateChanged(state);
-        }
+    private static void debug(String msg) {
+        Log.i(TAG, msg);
     }
 }
